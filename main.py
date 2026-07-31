@@ -2,7 +2,8 @@ import pygame
 from tetromino import *
 from display import *
 from board import *
-from pcPlayer import *
+from greedyPlayer import *
+# from mdpPlayer import *
 from direction import *
 from rotation import *
 
@@ -29,7 +30,7 @@ while isOpen:
     #reset board
     if newGame:
         board = Board()
-        pcPlayer = PcPlayer(board)
+        GreedyPlayer = GreedyPlayer(board)
         tetromino = board.generatePiece()
         timeCount = 0
         draw.drawStartScreen(board)
@@ -73,6 +74,7 @@ while isOpen:
         draw.refreshScreen(board, tetromino)
     
         #pcPlayer code
+        """
         if (selfPlay):
             if (board.isHeldPieceEmpty()):
                 board.setHeldPiece(tetromino)
@@ -85,11 +87,19 @@ while isOpen:
                 if tetromino == None:
                     gameOver = True
                     break
-            (swapPiece, position) = pcPlayer.choosePieceAndPosition(board, tetromino)
+            (swapPiece, position) = GreedyPlayer.chooseMove(board, tetromino)
             if (swapPiece):
                 tetromino = board.swapWithHeldPiece(tetromino)
             draw.refreshScreen(board, tetromino)
-            pcPlayer.makeMove(board, tetromino, position, draw)
+            GreedyPlayer.makeMove(board, tetromino)
+            tetromino = board.newPieceOrGameOver(tetromino)
+            draw.refreshScreen(board, tetromino)
+            if tetromino == None:
+                gameOver = True
+                break
+        """
+        if (selfPlay):
+            GreedyPlayer.makeMove(tetromino)
             tetromino = board.newPieceOrGameOver(tetromino)
             draw.refreshScreen(board, tetromino)
             if tetromino == None:
