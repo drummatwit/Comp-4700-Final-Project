@@ -99,12 +99,13 @@ class PcPlayer:
         columnScore = ((newColumnCount - board.columnCount)) * self.columnWeight
         return (holeScore, columnScore)
 
+    @
     def getHoleAndColumnCount(self, grid):
         gridHeight = len(grid.keys())
         gridWidth = len(grid[0])
         holeCount = 0
         columnCount = 0
-        columnList = [None] * gridWidth
+        columnList = [0] * gridWidth
         for x in range(gridWidth):
             emptyCount = 0
             for y in range(gridHeight-1, 0, -1):

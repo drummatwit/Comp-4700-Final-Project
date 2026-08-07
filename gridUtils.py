@@ -2,6 +2,7 @@
 
 class gridUtils:
 
+    @staticmethod
     def getColumnHeight(grid, width, height):
         heights = []
         for x in range(width):
@@ -13,6 +14,7 @@ class gridUtils:
             heights.append(colHeight)
         return heights
 
+    @staticmethod
     def countHoles(grid, width, height):
         # A Hole -> An empty cell with at least one filled cell above it in the same column
         holes = 0
@@ -25,6 +27,7 @@ class gridUtils:
                     holes += 1
         return holes
 
+    @staticmethod
     def getBumpiness(heights): 
         bumpiness = 0
         for i in range(len(heights) - 1):

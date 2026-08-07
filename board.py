@@ -146,9 +146,12 @@ class Board:
             isLocked = self.moveOrLockPiece(tetromino,Direction.DOWN)
 
     def dropPieceWithoutLock(self, tetromino):
+            moved = False
             while not ((self.isOutOfBounds(tetromino) or self.isGridBlocked(tetromino))):
                 tetromino.incrementCoords(0, 1)
-            tetromino.incrementCoords(0, -1)
+                moved = True
+            if moved:
+                tetromino.incrementCoords(0, -1)
     
     def moveLeftAndLockPiece(self, tetromino, count):
         self.moveOrLockPiece(tetromino, Direction.LEFT, count)

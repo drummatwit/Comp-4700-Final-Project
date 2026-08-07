@@ -1,9 +1,10 @@
 import pygame
 from tetromino import *
 from display import *
+import numpy as np
 from board import *
 from greedyPlayer import *
-# from mdpPlayer import *
+from mdpPlayer import *
 from direction import *
 from rotation import *
 
@@ -14,7 +15,11 @@ gameOver = False
 paused = False
 selfPlay = False
 locked = False
-
+tetromino = None  
+board = Board()
+mdpPlayer = MdpPlayer()
+greedyPlayer = GreedyPlayer(board)
+timeCount = 0
 #Create game window and clock
 window = Window()
 draw = Draw(window)
@@ -30,7 +35,9 @@ while isOpen:
     #reset board
     if newGame:
         board = Board()
-        GreedyPlayer = GreedyPlayer(board)
+        greedyPlayer = GreedyPlayer(board)
+        trainedWeights = np.load("trained_weights.npy")
+        mdpPlayer = MdpPlayer(weights=trainedWeights, gamma=0.95)
         tetromino = board.generatePiece()
         timeCount = 0
         draw.drawStartScreen(board)
@@ -99,12 +106,14 @@ while isOpen:
                 break
         """
         if (selfPlay):
-            GreedyPlayer.makeMove(tetromino)
+            # greedyPlayer.makeMove(tetromino)
+            mdpPlayer.makeMove(board, tetromino)
+
             tetromino = board.newPieceOrGameOver(tetromino)
-            draw.refreshScreen(board, tetromino)
             if tetromino == None:
                 gameOver = True
                 break
+            draw.refreshScreen(board, tetromino)
 
         #Step game forward
         timeCount += clock.get_rawtime()
